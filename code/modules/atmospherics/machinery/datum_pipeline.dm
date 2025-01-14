@@ -159,7 +159,7 @@
 		reference_pipe.replace_pipenet(reference_pipe.parent, src)
 		var/list/adjacent = reference_pipe.pipeline_expansion()
 		for(var/obj/machinery/atmospherics/pipe/adjacent_pipe in adjacent)
-			if(adjacent_pipe.parent == src)
+			if(adjacent_pipe.parent == src || !adjacent_pipe.parent)
 				continue
 			var/datum/pipeline/parent_pipeline = adjacent_pipe.parent
 			merge(parent_pipeline)
@@ -191,7 +191,8 @@
 	return
 
 /obj/machinery/atmospherics/pipe/add_member(obj/machinery/atmospherics/considered_device)
-	parent.add_member(considered_device, src)
+	if(parent)
+		parent.add_member(considered_device, src)
 
 /obj/machinery/atmospherics/components/add_member(obj/machinery/atmospherics/considered_device)
 	var/datum/pipeline/device_pipeline = return_pipenet(considered_device)
